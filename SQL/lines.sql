@@ -10,7 +10,7 @@ CREATE TABLE lines(
 
 
 INSERT into LINES (part, dialog, scene_id)
-VALUES ('Jules', 'Do you know what they call a Quarter Pounder with Cheese in France?', 1);
+VALUES ('Jules', 'Yo you know what they call a Quarter Pounder with Cheese in France?', 1);
 
 INSERT into LINES (part, dialog, scene_id)
 VALUES ('Brett', 'Uh no.', 1);

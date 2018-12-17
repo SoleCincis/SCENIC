@@ -1,13 +1,5 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
+import ReactDOM from "react-dom";
+import SceneReader from "./sceneReader";
 
-ReactDOM.render(
-    <HelloWorld />,
-    document.querySelector('main')
-);
-
-function HelloWorld() {
-    return (
-        <div>Hello, World!</div>
-    );
-}
+ReactDOM.render(<SceneReader id={1} />, document.querySelector("main"));
