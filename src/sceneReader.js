@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "./axios";
-// import { Link } from "react-router-dom";
+
 import { BrowserRouter, Route } from "react-router-dom";
 
 export default class SceneReader extends React.Component {
@@ -42,15 +42,19 @@ export default class SceneReader extends React.Component {
       console.log(this.state.result);
       currentLine = this.state.lines[index];
     }
-    this.setState({
-      currentLine,
-      currentIndex: index
-    });
-    if (this.state.part === currentLine.part) {
-      this.listen();
-    } else {
-      //stop listenin , start speck
-    }
+    this.setState(
+      {
+        currentLine,
+        currentIndex: index
+      },
+      () => {
+        if (this.state.part === currentLine.part) {
+          this.listen();
+        } else {
+          this.speak();
+        }
+      }
+    );
   }
   //___________
   listen() {
@@ -70,9 +74,10 @@ export default class SceneReader extends React.Component {
         recog.stop();
         if (
           this.state.result.transcript.toLowerCase() ==
-          this.state.currentLine.dialog
-            .toLowerCase()
-            .replace(/[^a-zA-Z\d\s]/g, "")
+            this.state.currentLine.dialog
+              .toLowerCase()
+              .replace(/[^a-zA-Z\d\s]/g, "") ||
+          this.state.showHint
         ) {
           this.setState({
             showHint: false,
@@ -97,6 +102,17 @@ export default class SceneReader extends React.Component {
       console.log(transcript);
     });
   }
+  //_________
+  speak() {
+    const voices = speechSynthesis
+      .getVoices()
+      .filter(v => v.lang.startsWith("en-"));
+
+    const line = new SpeechSynthesisUtterance(this.state.currentLine.dialog);
+    line.voice = voices[this.state.parts.indexOf(this.state.currentLine.part)];
+    speechSynthesis.speak(line);
+    this.nextLine();
+  }
 
   componentDidMount() {
     axios
@@ -114,7 +130,7 @@ export default class SceneReader extends React.Component {
       return null;
     }
     return (
-      <div className="appContainer">
+      <div className="RenderContainer">
         {!this.state.part && (
           <div>
             <select ref={sel => (this.sel = sel)}>
@@ -129,32 +145,38 @@ export default class SceneReader extends React.Component {
             <button onClick={this.choosRole}>START</button>
           </div>
         )}
-        <div>
-          {this.state.showHint && <div>{this.state.currentLine.dialog}</div>}
-        </div>
-        {this.state.result && (
-          <div
-            style={{
-              fontWeight: this.state.result.isFinal ? "bold" : "normal"
-            }}
-          >
-            <p>
-              {this.state.currentLine.part} : {this.state.result.transcript}
-            </p>
+        <div className="textContainer">
+          <div>
+            {this.state.showHint && <div>{this.state.currentLine.dialog}</div>}
           </div>
-        )}
+          <div>
+            {this.state.currentLine && (
+              <span>{this.state.currentLine.part} : </span>
+            )}
+            {this.state.result && (
+              <span
+                style={{
+                  fontWeight: this.state.result.isFinal ? "bold" : "normal"
+                }}
+              >
+                {this.state.result.transcript}
+              </span>
+            )}
+          </div>
 
-        {this.state.lines
-          .filter((line, i) => {
-            return i < this.state.currentIndex;
-          })
-          .map(line => {
-            return (
-              <div key={line.id}>
-                {line.part} : {line.dialog}
-              </div>
-            );
-          })}
+          {this.state.lines
+            .filter((line, i) => {
+              return i < this.state.currentIndex;
+            })
+            .reverse()
+            .map(line => {
+              return (
+                <div key={line.id}>
+                  {line.part} : {line.dialog}
+                </div>
+              );
+            })}
+        </div>
       </div>
     );
   }

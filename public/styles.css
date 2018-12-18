@@ -9,5 +9,7 @@ body {
 }
 
 .appContainer {
-  border: 2px solid black;
+}
+.textContainer {
+  font-color: red;
 }
