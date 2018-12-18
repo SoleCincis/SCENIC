@@ -1,5 +1,11 @@
 body {
-  background-color: #10d9d9;
+  background-color: #c4c4c4;
+  background-image: url("/sfondo.png");
+  min-height: 100vh;
+  background-size: contain;
+  position: relative;
+  background-repeat: no-repeat;
+  background-position: 0 0;
 }
 
 .appContainer {

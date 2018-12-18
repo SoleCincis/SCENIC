@@ -1,8 +1,3 @@
-import React from "react";
-
-export default class Speech extends React.Component {
-    constructor() {
-      super();
 
 
 (function Speech() {
@@ -21,13 +16,22 @@ export default class Speech extends React.Component {
     });
 })();
 
-render() {
-  return (
-
-  )}
 
 
 
+  this.setState({
+     showHint: true
+  })
+
+
+  render() {
+     return (
+         <div>
+
+         {this.state.showHint && <div>{this.state.currentLine.text}</div>}
+         </div>
+     )
+  }
 
 
 
