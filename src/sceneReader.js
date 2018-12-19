@@ -1,12 +1,11 @@
 import React from "react";
 import axios from "./axios";
-
 import { BrowserRouter, Route } from "react-router-dom";
 
 export default class SceneReader extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { id: this.props.id, showHint: false };
+    this.state = { id: this.props.match.params.id, showHint: false };
 
     this.choosRole = this.choosRole.bind(this);
   }
@@ -67,6 +66,12 @@ export default class SceneReader extends React.Component {
     recog.interimResults = true;
     recog.continuous = true;
     recog.lang = "en-US";
+    var grammar =
+      "#JSGF V1.0; grammar lines; public <line> = " +
+      this.state.currentLine.dialog;
+    var grammarList = new webkitSpeechGrammarList();
+    grammarList.addFromString(grammar, 1);
+    recog.grammars = grammarList;
     recog.start();
     recog.addEventListener("result", ({ results }) => {
       var { transcript } = results[results.length - 1][0];
@@ -111,7 +116,16 @@ export default class SceneReader extends React.Component {
     const line = new SpeechSynthesisUtterance(this.state.currentLine.dialog);
     line.voice = voices[this.state.parts.indexOf(this.state.currentLine.part)];
     speechSynthesis.speak(line);
-    this.nextLine();
+    const nextLine = () => {
+      setTimeout(x => {
+        if (!speechSynthesis.speaking) {
+          this.nextLine();
+        } else {
+          nextLine();
+        }
+      }, 500);
+    };
+    nextLine();
   }
 
   componentDidMount() {

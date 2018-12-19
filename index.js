@@ -28,6 +28,10 @@ app.get("/scene/:id", (req, res) => {
     });
 });
 
+app.post("/sceneTitle/:id", (req, res) => {
+  db.getSceneId(req.params.id);
+});
+
 app.get("*", function(req, res) {
   res.sendFile(__dirname + "/index.html");
 });

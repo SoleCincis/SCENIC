@@ -18,3 +18,13 @@ exports.getScene = id => {
     [id]
   );
 };
+
+exports.getSceneId = id => {
+  return db.query(
+    `
+        SELECT * FROM lines
+        WHERE scene_id = $1
+ `,
+    [id]
+  );
+};
