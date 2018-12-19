@@ -18,13 +18,13 @@ exports.getScene = id => {
     [id]
   );
 };
-
-exports.getSceneId = id => {
+//___________getting scene id____________
+exports.createScene = title => {
   return db.query(
     `
-        SELECT * FROM lines
-        WHERE scene_id = $1
- `,
-    [id]
+        INSERT INTO scenes (title)
+        VALUES ($1)
+        RETURNING id`,
+    [title]
   );
 };

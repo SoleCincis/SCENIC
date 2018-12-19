@@ -1,11 +1,12 @@
 const express = require("express");
 const app = express();
-
+const bodyParser = require("body-parser");
 const compression = require("compression");
 const db = require("./db");
 
 app.use(compression());
 app.use(express.static("./public"));
+app.use(bodyParser.json());
 
 if (process.env.NODE_ENV != "production") {
   app.use(
@@ -28,8 +29,12 @@ app.get("/scene/:id", (req, res) => {
     });
 });
 
-app.post("/sceneTitle/:id", (req, res) => {
-  db.getSceneId(req.params.id);
+app.post("/sceneTitle", (req, res) => {
+  db.createScene(req.body.title).then(results => {
+    res.json({
+      sceneId: results.rows[0].id
+    });
+  });
 });
 
 app.get("*", function(req, res) {

@@ -7,34 +7,50 @@ export default class SceneImporter extends React.Component {
     super(props);
     this.state = {};
     this.titeling = this.titeling.bind(this);
-    this.submitting = this.submitting.bind(this);
+    this.createScene = this.createScene.bind(this);
   }
   titeling(e) {
     this.setState({
-      [e.targe]: e.target.value
+      [e.target.name]: e.target.value
     });
   }
-  submitting(e) {
+  createScene(e) {
     e.preventDefault();
-    axios.post("/sceneTitle/:id", this.state).then(x => {
-      this.setState(sceneId);
-      return null;
+    axios.post("/sceneTitle/", this.state).then(resp => {
+      this.setState({
+        sceneId: resp.data.sceneId
+      });
     });
   }
 
   render() {
     return (
       <div>
-        <form onSubmit={this.submitting}>
-          <input
-            onChange={this.titeling}
-            name="sceneTitle"
-            typre="text"
-            placeholder="insert scene title, pretty please with suger on top"
-          />
+        {!this.state.sceneId && (
+          <div>
+            <form onSubmit={this.createScene}>
+              <input
+                onChange={this.titeling}
+                name="title"
+                type="text"
+                placeholder="insert scene title, pretty please with suger on top"
+              />
+              <button />
+            </form>
+          </div>
+        )}
 
-          <button />
-        </form>
+        <div>
+          <form>
+            <input
+              id="lines"
+              name="sceneLines"
+              typre="text"
+              placeholder="insert scene line"
+            />
+            <button />
+          </form>
+        </div>
       </div>
     );
   }
