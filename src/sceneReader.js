@@ -37,6 +37,11 @@ export default class SceneReader extends React.Component {
     } else {
       index = this.state.lines.indexOf(currentLine) + 1;
       if (index == this.state.lines.length) {
+        this.setState({
+          currentLine: null,
+          currentIndex: index
+        });
+        setTimeout(() => this.setState({ finished: true }), 2500);
         return;
       }
       console.log(this.state.result);
@@ -51,7 +56,7 @@ export default class SceneReader extends React.Component {
         if (this.state.part === currentLine.part) {
           this.listen();
         } else {
-          this.speak();
+          setTimeout(() => this.speak());
         }
       }
     );
@@ -76,35 +81,40 @@ export default class SceneReader extends React.Component {
     recog.start();
     recog.addEventListener("result", ({ results }) => {
       var { transcript } = results[results.length - 1][0];
-      if (results[results.length - 1].isFinal) {
-        recog.stop();
-        if (
-          this.state.result.transcript.toLowerCase() ==
-            this.state.currentLine.dialog
-              .toLowerCase()
-              .replace(/[^a-zA-Z\d\s]/g, "") ||
-          this.state.showHint
-        ) {
-          this.setState({
-            showHint: false,
-            result: null
-          });
-          recog.onend = null;
-          recog.stop();
-          this.nextLine();
-          return;
-        } else {
-          this.setState({
-            showHint: true
-          });
+      this.setState(
+        {
+          result: {
+            transcript,
+            isFinal: results[results.length - 1].isFinal
+          }
+        },
+        () => {
+          if (results[results.length - 1].isFinal) {
+            if (
+              this.state.result.transcript.toLowerCase() ==
+                this.state.currentLine.dialog
+                  .toLowerCase()
+                  .replace(/[^a-zA-Z\d\s]/g, "") ||
+              this.state.showHint
+            ) {
+              this.setState({
+                showHint: false,
+                result: null
+              });
+              recog.onend = null;
+              recog.stop();
+              this.nextLine();
+              return;
+            } else {
+              recog.stop();
+
+              this.setState({
+                showHint: true
+              });
+            }
+          }
         }
-      }
-      this.setState({
-        result: {
-          transcript,
-          isFinal: results[results.length - 1].isFinal
-        }
-      });
+      );
       console.log(transcript);
     });
   }
@@ -115,18 +125,11 @@ export default class SceneReader extends React.Component {
       .filter(v => v.lang.startsWith("en-"));
 
     const line = new SpeechSynthesisUtterance(this.state.currentLine.dialog);
+    line.rate = 0.8;
+    line.pitch = 1.8;
     line.voice = voices[this.state.parts.indexOf(this.state.currentLine.part)];
+    line.onend = e => this.nextLine();
     speechSynthesis.speak(line);
-    const nextLine = () => {
-      setTimeout(x => {
-        if (!speechSynthesis.speaking) {
-          this.nextLine();
-        } else {
-          nextLine();
-        }
-      }, 500);
-    };
-    nextLine();
   }
 
   componentDidMount() {
@@ -145,7 +148,7 @@ export default class SceneReader extends React.Component {
       return null;
     }
     return (
-      <div className="renderContainer">
+      <div className="renderContainer" style={{ padding: "10px" }}>
         {!this.state.part && (
           <div>
             <select ref={sel => (this.sel = sel)}>
@@ -180,6 +183,12 @@ export default class SceneReader extends React.Component {
               </span>
             )}
           </div>
+          {this.state.finished && (
+            <div style={{ textAlign: "center" }}>
+              {" "}
+              <img id="fine" src="/fine.png" width="500" />
+            </div>
+          )}
 
           {this.state.lines
             .filter((line, i) => {

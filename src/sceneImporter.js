@@ -99,14 +99,17 @@ export default class SceneImporter extends React.Component {
                 onChange={this.titling}
                 name="title"
                 type="text"
-                placeholder="type the title of your scene here"
+                placeholder="enter a scene title"
                 autoComplete="off"
               />
               <button
                 style={{
                   borderRadius: "100%",
                   backgroundColor: "#88001b",
-                  minHeight: "15px"
+                  minHeight: "15px",
+                  margin: "10px",
+                  padding: "10px",
+                  verticalAlign: "middle"
                 }}
               />
             </form>
@@ -115,7 +118,15 @@ export default class SceneImporter extends React.Component {
         <form onSubmit={this.buildingScene}>
           {this.state.sceneId && (
             <div>
-              <p>{this.state.title}</p>
+              <p
+                style={{
+                  fontSize: "50px",
+
+                  fontFamily: "courier"
+                }}
+              >
+                {this.state.title}
+              </p>
               <input
                 style={{
                   fontSize: "15px",
@@ -138,6 +149,7 @@ export default class SceneImporter extends React.Component {
               </datalist>
             </div>
           )}
+          {/* ____________TEXT AREA________________*/}
           {this.state.sceneId && (
             <div className="linesContainer">
               <textarea
@@ -150,6 +162,8 @@ export default class SceneImporter extends React.Component {
                 onChange={this.titling}
                 name="dialog"
                 type="text"
+                rows="10"
+                fontSize="20px"
                 placeholder="insert a scene line"
                 value={this.state.dialog}
               />
@@ -172,15 +186,26 @@ export default class SceneImporter extends React.Component {
             </div>
           )}
         </form>
-        <div>
-          {this.state.lines.map(line => {
-            return (
-              <div key={line.id}>
-                {line.part} : {line.dialog}
-              </div>
-            );
-          })}
-        </div>
+        {!!this.state.lines.length && (
+          <div
+            style={{
+              margin: "40px",
+              backgroundColor: "rgba(201, 102, 102, 0.4)",
+              padding: "30px",
+              borderRadius: "10px",
+              maxWidth: "500px"
+            }}
+          >
+            {this.state.lines.map(line => {
+              return (
+                <div key={line.id} style={{ marginBottom: "10px" }}>
+                  <span style={{ fontWeight: "bold" }}>{line.part} </span> :{" "}
+                  {line.dialog}
+                </div>
+              );
+            })}
+          </div>
+        )}
       </div>
     );
   }

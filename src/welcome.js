@@ -10,8 +10,8 @@ export default class Welcome extends React.Component {
 
   render() {
     return (
-      <div id="frame">
-        <div className="welcomeLogo" />
+      <div className="welcomeContainer">
+        <img id="logo" src="/logo.png" width="400" />
       </div>
     );
   }
