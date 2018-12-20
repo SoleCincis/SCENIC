@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "./axios";
 import { BrowserRouter, Route } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default class SceneImporter extends React.Component {
   constructor(props) {
@@ -125,7 +126,13 @@ export default class SceneImporter extends React.Component {
                   fontFamily: "courier"
                 }}
               >
-                {this.state.title}
+                {this.state.lines.length ? (
+                  <Link to={"/read/" + this.state.sceneId}>
+                    {this.state.title}
+                  </Link>
+                ) : (
+                  <span>{this.state.title}</span>
+                )}
               </p>
               <input
                 style={{
