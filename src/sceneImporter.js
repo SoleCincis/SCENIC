@@ -77,10 +77,6 @@ export default class SceneImporter extends React.Component {
         recog.stop();
         this.setState({
           dialog: transcript
-          // result: {
-          //   transcript,
-          //   isFinal: results[results.length - 1].isFinal
-          // }
         });
       }
     });
@@ -88,24 +84,45 @@ export default class SceneImporter extends React.Component {
 
   render() {
     return (
-      <div>
+      <div
+        className="sceneImporter"
+        style={{ display: "flex", padding: "0 10px" }}
+      >
         {!this.state.sceneId && (
           <div>
+            <img id="sceneTitle" src="/sceneTitle.png" />
+
             <form onSubmit={this.createScene}>
               <input
+                id="title"
+                style={{ border: "0" }}
                 onChange={this.titling}
                 name="title"
                 type="text"
-                placeholder="insert scene title, pretty please with suger on top"
+                placeholder="type the title of your scene here"
+                autoComplete="off"
               />
-              <button />
+              <button
+                style={{
+                  borderRadius: "100%",
+                  backgroundColor: "#88001b",
+                  minHeight: "15px"
+                }}
+              />
             </form>
           </div>
         )}
         <form onSubmit={this.buildingScene}>
           {this.state.sceneId && (
             <div>
+              <p>{this.state.title}</p>
               <input
+                style={{
+                  fontSize: "15px",
+                  width: "250px",
+                  marginTop: "50px",
+                  border: "0"
+                }}
                 onChange={this.titling}
                 name="part"
                 type="text"
@@ -122,16 +139,36 @@ export default class SceneImporter extends React.Component {
             </div>
           )}
           {this.state.sceneId && (
-            <div>
+            <div className="linesContainer">
               <textarea
+                style={{
+                  width: "250px",
+                  marginTop: "50px",
+                  border: "1px solid black",
+                  padding: "5px"
+                }}
                 onChange={this.titling}
                 name="dialog"
                 type="text"
                 placeholder="insert a scene line"
                 value={this.state.dialog}
               />
-              <button>go</button>
-              <button type="button" onClick={this.listeningTo} />
+              <div>
+                <button
+                  style={{
+                    borderRadius: "100%",
+                    backgroundColor: "#a30404",
+                    minHeight: "15px"
+                  }}
+                />
+                <img
+                  width="50"
+                  onClick={this.listeningTo}
+                  style={{ verticalAlign: "middle" }}
+                  id="icon"
+                  src="/speakIcone.png"
+                />
+              </div>
             </div>
           )}
         </form>

@@ -166,7 +166,9 @@ export default class SceneReader extends React.Component {
           </div>
           <div>
             {this.state.currentLine && (
-              <span>{this.state.currentLine.part} : </span>
+              <span style={{ color: "red" }}>
+                {this.state.currentLine.part} :{" "}
+              </span>
             )}
             {this.state.result && (
               <span
@@ -186,7 +188,13 @@ export default class SceneReader extends React.Component {
             .reverse()
             .map(line => {
               return (
-                <div key={line.id}>
+                <div
+                  key={line.id}
+                  style={{
+                    marginBottom: "10px",
+                    marginTop: "10px"
+                  }}
+                >
                   {line.part} : {line.dialog}
                 </div>
               );

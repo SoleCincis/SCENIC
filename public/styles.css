@@ -1,3 +1,23 @@
+body {
+  margin: 20px;
+} /* _________WELCOME_____________ */
+#frame .welcomeLogo {
+  border: 2px solid black;
+  border-radius: 10px;
+  border-spacing: 20px;
+  min-height: 50vh;
+  min-width: 50vh;
+}
+.welcomeLogo {
+  background-image: url("/logo.png");
+  min-height: 50vh;
+  /* min-width: 50vh; */
+  background-size: contain;
+  position: relative;
+  background-repeat: no-repeat;
+  background-position: 0 0;
+}
+/* ______________READER_______________ */
 .renderContainer {
   background-color: #c4c4c4;
   background-image: url("/sfondo.png");
@@ -7,16 +27,38 @@
   background-repeat: no-repeat;
   background-position: 0 0;
 }
-
-.welcomeComponent {
-  background-image: url("/logo.png");
-  min-height: 50vh;
+.textContainer {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+/* ______________IMPORTER___________ */
+.sceneImporter {
+  background-image: url("/vincent.png");
+  min-height: 100vh;
   background-size: contain;
   position: relative;
   background-repeat: no-repeat;
-  background-position: 0 0;
-}
+  background-position: right;
+  border: 1px solid black;
 
-.textContainer {
-  background-color: rgba(0, 0, 0, 0.5);
+  box-sizing: border-box;
+}
+img#sceneTitle {
+  /* position: absolute; */
+  width: 500px;
+  margin-top: 20px;
+  margin-left: 20px;
+}
+#title {
+  margin-left: 40%;
+  min-width: 30vh;
+  font-size: 15px;
+
+  /* border: 2px solid gray;
+  border-radius: 20%;  */
+}
+input,
+button,
+a,
+textarea {
+  outline: 0;
 }

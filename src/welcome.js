@@ -9,6 +9,10 @@ export default class Welcome extends React.Component {
   }
 
   render() {
-    return <div className="welcomeComponent" />;
+    return (
+      <div id="frame">
+        <div className="welcomeLogo" />
+      </div>
+    );
   }
 }
