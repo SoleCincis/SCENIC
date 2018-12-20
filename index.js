@@ -47,6 +47,14 @@ app.post("/dialogLines", (req, res) => {
   );
 });
 
+app.get("/getScenes", (req, res) => {
+  db.getScenes().then(results => {
+    res.json({
+      scenes: results.rows
+    });
+  });
+});
+
 app.get("*", function(req, res) {
   res.sendFile(__dirname + "/index.html");
 });

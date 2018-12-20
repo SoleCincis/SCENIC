@@ -39,3 +39,12 @@ exports.createDialog = (sceneId, part, dialog) => {
     [sceneId, part, dialog]
   );
 };
+
+exports.getScenes = () => {
+  return db.query(
+    `
+        SELECT * FROM scenes
+        
+ `
+  );
+};
