@@ -1,4 +1,4 @@
-body {
+.renderContainer {
   background-color: #c4c4c4;
   background-image: url("/sfondo.png");
   min-height: 100vh;
@@ -8,8 +8,15 @@ body {
   background-position: 0 0;
 }
 
-.appContainer {
+.welcomeComponent {
+  background-image: url("/logo.png");
+  min-height: 50vh;
+  background-size: contain;
+  position: relative;
+  background-repeat: no-repeat;
+  background-position: 0 0;
 }
+
 .textContainer {
-  font-color: red;
+  background-color: rgba(0, 0, 0, 0.5);
 }

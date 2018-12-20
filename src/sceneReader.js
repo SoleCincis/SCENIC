@@ -145,7 +145,7 @@ export default class SceneReader extends React.Component {
       return null;
     }
     return (
-      <div className="RenderContainer">
+      <div className="renderContainer">
         {!this.state.part && (
           <div>
             <select ref={sel => (this.sel = sel)}>

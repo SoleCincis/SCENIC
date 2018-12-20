@@ -18,7 +18,7 @@ exports.getScene = id => {
     [id]
   );
 };
-//___________getting scene id____________
+//___________inserting title getting scene id____________
 exports.createScene = title => {
   return db.query(
     `
@@ -26,5 +26,16 @@ exports.createScene = title => {
         VALUES ($1)
         RETURNING id`,
     [title]
+  );
+};
+
+//__________________creating script_____________________
+exports.createDialog = (sceneId, part, dialog) => {
+  return db.query(
+    `
+        INSERT INTO lines (scene_id, part, dialog )
+        VALUES ($1, $2, $3 )
+        RETURNING id`,
+    [sceneId, part, dialog]
   );
 };

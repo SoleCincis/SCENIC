@@ -37,6 +37,16 @@ app.post("/sceneTitle", (req, res) => {
   });
 });
 
+app.post("/dialogLines", (req, res) => {
+  db.createDialog(req.body.sceneId, req.body.part, req.body.dialog).then(
+    results => {
+      res.json({
+        lineId: results.rows[0].id
+      });
+    }
+  );
+});
+
 app.get("*", function(req, res) {
   res.sendFile(__dirname + "/index.html");
 });
