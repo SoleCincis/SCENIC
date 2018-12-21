@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "./axios";
+import { Link } from "react-router-dom";
 
 import { BrowserRouter, Route } from "react-router-dom";
 
@@ -178,11 +179,20 @@ export default class SceneReader extends React.Component {
         )}
         <div className="textContainer">
           <div>
-            {this.state.showHint && <div>{this.state.currentLine.dialog}</div>}
+            {this.state.showHint && (
+              <div
+                style={{
+                  color: "lightgray",
+                  padding: "3px"
+                }}
+              >
+                {this.state.currentLine.dialog}
+              </div>
+            )}
           </div>
           <div>
             {this.state.currentLine && (
-              <span style={{ color: "red" }}>
+              <span style={{ color: "#a30404" }}>
                 {this.state.currentLine.part} :{" "}
               </span>
             )}
@@ -199,6 +209,7 @@ export default class SceneReader extends React.Component {
           <div
             style={{
               textAlign: "center",
+              marginTop: "10px",
               left: `-1000000px`,
               position: this.state.finished ? `static` : `absolute`,
               transition: `transform 2s`,
@@ -206,7 +217,7 @@ export default class SceneReader extends React.Component {
             }}
           >
             {" "}
-            <img id="fine" src="/fine.png" width="500" />
+            <img id="fine" src="/fine2.png" width="500" />
           </div>
 
           {this.state.lines
@@ -223,12 +234,27 @@ export default class SceneReader extends React.Component {
                     marginTop: "10px"
                   }}
                 >
-                  <span style={{ color: "green" }}>{line.part} :</span>{" "}
+                  <span style={{ color: "#09ab1b" }}>{line.part} :</span>{" "}
                   {line.dialog}
                 </div>
               );
             })}
         </div>
+        <Link
+          to="/welcome"
+          style={{
+            backgroundColor: "white",
+            borderRadius: "100%",
+            padding: "-10px",
+
+            marginTop: "600px",
+            marginRight: "20px",
+
+            float: "right"
+          }}
+        >
+          <img id="new" src="/logoSmall.png" width="100" />
+        </Link>
       </div>
     );
   }
