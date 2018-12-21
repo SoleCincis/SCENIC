@@ -1,12 +1,15 @@
 body {
   margin: 20px;
 } /* _________WELCOME_____________ */
-.welcomeContainer img {
-  border: 2px solid black;
-  border-radius: 100px;
-  margin-top: 1%;
-  margin-left: 35%;
+.welcomeContainer {
+  /* border: 2px solid black;
+  border-radius: 50px; */
+  margin-top: 10px;
+  /* margin-left: 35%; */
   /* padding: 20px; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 /* .welcomeLogo {
   background-image: url("/logo.png");

@@ -20,14 +20,21 @@ export default class Welcome extends React.Component {
     return (
       <div className="welcomeContainer">
         <img id="logo" src="/logo.png" width="400" />
-        {this.state.scenes &&
-          this.state.scenes.map(scene => {
-            return (
-              <div key={scene.id} style={{ textAlign: "center" }}>
-                <Link to={"/read/" + scene.id}>{scene.title}</Link>
-              </div>
-            );
-          })}
+        <div style={{ margin: "10px" }}>
+          {this.state.scenes &&
+            this.state.scenes.map(scene => {
+              return (
+                <div key={scene.id} style={{ textAlign: "center" }}>
+                  <Link
+                    style={{ fontFamily: "courier", color: "black" }}
+                    to={"/read/" + scene.id}
+                  >
+                    {scene.title}
+                  </Link>
+                </div>
+              );
+            })}
+        </div>
         <Link to="/import">
           <img id="new" src="/newscene.png" width="400" />
         </Link>
