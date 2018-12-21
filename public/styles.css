@@ -29,6 +29,11 @@ body {
 }
 .textContainer {
   background-color: rgba(0, 0, 0, 0.1);
+  font-family: courier;
+  font-size: 35px;
+  font-weight: bold;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: #c4c4c4;
 }
 /* ______________IMPORTER___________ */
 .sceneImporter {

@@ -41,12 +41,13 @@ export default class SceneReader extends React.Component {
           currentLine: null,
           currentIndex: index
         });
-        setTimeout(() => this.setState({ finished: true }), 2500);
+        this.setState({ finished: true });
         return;
       }
       console.log(this.state.result);
       currentLine = this.state.lines[index];
     }
+    console.log(`NEXT LINE`, index);
     this.setState(
       {
         currentLine,
@@ -128,8 +129,20 @@ export default class SceneReader extends React.Component {
     line.rate = 0.8;
     line.pitch = 1.8;
     line.voice = voices[this.state.parts.indexOf(this.state.currentLine.part)];
-    line.onend = e => this.nextLine();
+
     speechSynthesis.speak(line);
+
+    const nextLine = () => {
+      setTimeout(() => {
+        if (!speechSynthesis.speaking) {
+          this.nextLine();
+        } else {
+          nextLine();
+        }
+      }, 500);
+    };
+
+    nextLine();
   }
 
   componentDidMount() {
@@ -183,12 +196,18 @@ export default class SceneReader extends React.Component {
               </span>
             )}
           </div>
-          {this.state.finished && (
-            <div style={{ textAlign: "center" }}>
-              {" "}
-              <img id="fine" src="/fine.png" width="500" />
-            </div>
-          )}
+          <div
+            style={{
+              textAlign: "center",
+              left: `-1000000px`,
+              position: this.state.finished ? `static` : `absolute`,
+              transition: `transform 2s`,
+              transform: this.state.finished ? `scale(01.5)` : `scale(.05)`
+            }}
+          >
+            {" "}
+            <img id="fine" src="/fine.png" width="500" />
+          </div>
 
           {this.state.lines
             .filter((line, i) => {
@@ -204,7 +223,8 @@ export default class SceneReader extends React.Component {
                     marginTop: "10px"
                   }}
                 >
-                  {line.part} : {line.dialog}
+                  <span style={{ color: "green" }}>{line.part} :</span>{" "}
+                  {line.dialog}
                 </div>
               );
             })}
